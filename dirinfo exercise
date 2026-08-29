@@ -1,0 +1,39 @@
+success@DESKTOP-8IS4OKT:~/my_bash_script$ cat dirinfo.sh
+#!/bin/bash
+
+# file/directory info reporter
+
+# store the first argument
+
+target="aws_groups"
+
+# check if no directory was provided
+if [ -z "$target" ]; then
+        echo "usage: $0 </home/success/aws_groups>"
+        exit 1
+fi
+
+# check if the path exists and is a directory
+if [ ! -d "$target" ]; then
+        echo "error: '$target' is not a valid directory."
+        exit 1
+fi
+# count files in the directory
+file_count=$(find "$target" -maxdepth 1 -type f | wc -l)
+
+# count subdirectories, excluding the main directory itself
+dir_count=$(find "$target" -mindepth 1 -maxdepth 1 -type d | wc -l)
+
+# get total size of the directory
+total_size=$(du -sh "$target" | cut -f1)
+
+# display the results
+
+echo "============================="
+echo "directory information report"
+echo "============================="
+echo "directory: $target"
+echo "files: $file_count"
+echo "subdirectories: $dir_count"
+echo "total size: $total_size"
+echo "==============================="

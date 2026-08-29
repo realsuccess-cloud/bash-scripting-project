@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# generate a random number between 1 and 100
+target=$(( RANDOM % 100 + 1 ))
+
+# set the number of guesses to 0
+count=0
+
+echo "welcome to the number guessing game!"
+echo "I have chosen a number between 1 and 100."
+
+# keep asking until the user guesses correctly
+while true; do
+        # ask the user for a guess
+        read -p "enter your guess: " guess
+
+        # check if the input is a number
+        if ! [[ "$guess" =~ ^[0-9]+$ ]]; then
+             echo "please enter a valid number."
+             continue
+        fi
+   # check if the number is between 1 and 100
+   if [ "$guess" -lt 1 ] || [ "$guess" -gt 100 ]; then
+      echo "please enter a number between 1 and 100."
+      continue
+   fi
+# increase the guess counter
+count=$((count + 1))
+
+# compare the guess with the target
+if [ "$guess" -lt "$target" ]; then
+        echo "too low! try again."
+elif [ "$guess" -gt "$target" ]; then
+        echo "too high! try again."
+
+else
+        echo "congratulations! you guessed the correct number!"
+        echo "the number was $target."
+        echo "you made $count guess(es)."
+        break
+fi
+
+done
